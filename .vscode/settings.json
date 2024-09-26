@@ -1,0 +1,35 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "biomejs.biome",
+  "editor.codeActionsOnSave": {
+    "quickfix.biome": "explicit",
+    "source.organizeImports.biome": "explicit",
+    "source.fixAll": "explicit"
+  },
+  "json.schemas": [
+    {
+      "url": "https://cdn.jsdelivr.net/npm/tsup/schema.json",
+      "fileMatch": ["package.json", "tsup.config.json"]
+    }
+  ],
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#69bb75",
+    "activityBar.background": "#69bb75",
+    "activityBar.foreground": "#15202b",
+    "activityBar.inactiveForeground": "#15202b99",
+    "activityBarBadge.background": "#7265b9",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "commandCenter.border": "#15202b99",
+    "sash.hoverBorder": "#69bb75",
+    "statusBar.background": "#4ba658",
+    "statusBar.foreground": "#15202b",
+    "statusBarItem.hoverBackground": "#3b8345",
+    "statusBarItem.remoteBackground": "#4ba658",
+    "statusBarItem.remoteForeground": "#15202b",
+    "titleBar.activeBackground": "#4ba658",
+    "titleBar.activeForeground": "#15202b",
+    "titleBar.inactiveBackground": "#4ba65899",
+    "titleBar.inactiveForeground": "#15202b99"
+  },
+  "peacock.color": "#4BA658"
+}
