@@ -1,13 +1,14 @@
 import { env } from "@/common/utils/envConfig";
+import { logger } from "@/server";
 import mongoose from "mongoose";
 
 const dbUrl = env.DB_CONNECTION;
 const connectDB = async () => {
-  await mongoose.connect(dbUrl);
   try {
-    console.log("MongoDB Connected");
+    await mongoose.connect(dbUrl);
+    logger.info("MongoDB Connected");
   } catch (error) {
-    console.error(`Error connect to DB: ${error}`);
+    logger.info(`Error connect to DB: ${error}`);
   }
 };
 export default connectDB;

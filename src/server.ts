@@ -11,6 +11,8 @@ import rateLimiter from "@/common/middleware/rateLimiter";
 import requestLogger from "@/common/middleware/requestLogger";
 import { env } from "@/common/utils/envConfig";
 import connectDB from "./config/database";
+import authRouter from "./modules/auth/authRoutes";
+import { errorMiddleware } from "./modules/auth/middleware/ErrorMiddleware";
 
 const logger = pino({ name: "server start" });
 
@@ -34,11 +36,15 @@ app.use(requestLogger);
 // Routes
 app.use("/health-check", healthCheckRouter);
 app.use("/users", userRouter);
+app.use("/auth", authRouter);
 
 // Swagger UI
 app.use(openAPIRouter);
 
 // Error handlers
 app.use(errorHandler());
+
+//myErrorHandles
+app.use(errorMiddleware);
 
 export { app, logger };
