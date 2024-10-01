@@ -40,4 +40,22 @@ export class AuthController {
       next(error);
     }
   }
+
+  async login(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email, password } = req.body;
+
+      // const user = await this.authService.login(email, password);
+      const { user, token } = await this.authService.login(email, password);
+
+      const response = new ApiResponseBuilder()
+        .setStatusCode(StatusCodes.OK)
+        .setMessage("User logged in succesfully")
+        .setData({ user, token })
+        .build();
+      res.status(StatusCodes.OK).json(response);
+    } catch (error) {
+      next(error); //delega el manejo de errores al middleware
+    }
+  }
 }

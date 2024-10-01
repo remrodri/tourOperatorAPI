@@ -11,5 +11,5 @@ export interface IAuthService {
     password: string,
   ): Promise<UserResponseDto>;
 
-  login(email: string, password: string): Promise<IUser | null>;
+  login(email: string, password: string): Promise<{ user: UserResponseDto; token: string }>;
 }

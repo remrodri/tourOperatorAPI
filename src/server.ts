@@ -11,8 +11,11 @@ import rateLimiter from "@/common/middleware/rateLimiter";
 import requestLogger from "@/common/middleware/requestLogger";
 import { env } from "@/common/utils/envConfig";
 import connectDB from "./config/database";
-import authRouter from "./modules/auth/authRoutes";
 import { errorMiddleware } from "./modules/auth/middleware/ErrorMiddleware";
+import authRouter from "./modules/auth/route/authRouter";
+
+import swaggerUi from "swagger-ui-express";
+import { swaggerDocs } from "./modules/utils/swagger";
 
 const logger = pino({ name: "server start" });
 
@@ -40,6 +43,9 @@ app.use("/auth", authRouter);
 
 // Swagger UI
 app.use(openAPIRouter);
+
+//MySwagger UI
+// app.use("/api-docs",swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Error handlers
 app.use(errorHandler());
