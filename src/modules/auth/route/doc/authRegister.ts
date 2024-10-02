@@ -2,7 +2,6 @@ import { OpenAPIRegistry } from "@asteasolutions/zod-to-openapi";
 import { z } from "zod";
 import { CreateUserDto } from "../../dto/CreateUserDto";
 import { LoginDto } from "../../dto/LoginDto";
-import { login } from "./authLogin";
 
 // Crear el registro de OpenAPI
 export const authRegistry = new OpenAPIRegistry();
@@ -131,11 +130,6 @@ authRegistry.registerPath({
     required: true,
     content: {
       "application/json": {
-        // schema: LoginUserDto,
-        // example: {
-        //   email: "john.doe@example.com",
-        //   password: "mypassword",
-        // },
         schema: {
           type: "object",
           properties: {

@@ -14,9 +14,6 @@ import connectDB from "./config/database";
 import { errorMiddleware } from "./modules/auth/middleware/ErrorMiddleware";
 import authRouter from "./modules/auth/route/authRouter";
 
-import swaggerUi from "swagger-ui-express";
-import { swaggerDocs } from "./modules/utils/swagger";
-
 const logger = pino({ name: "server start" });
 
 connectDB();
