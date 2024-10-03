@@ -3,6 +3,7 @@ import { OpenAPIRegistry, OpenApiGeneratorV3 } from "@asteasolutions/zod-to-open
 import { healthCheckRegistry } from "@/api/healthCheck/healthCheckRouter";
 import { userRegistry } from "@/api/user/userRouter";
 import { authRegistry } from "@/modules/auth/route/doc/authRegister";
+import { myUserRegistry } from "@/modules/user/route/doc/userRegister";
 // import { authRegistry } from "@/modules/auth/route/authRouter";
 
 export function generateOpenAPIDocument() {

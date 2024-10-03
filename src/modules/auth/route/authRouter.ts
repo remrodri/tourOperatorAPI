@@ -10,7 +10,7 @@ const authRepository = new AuthRepository();
 const authService = new AuthService(authRepository);
 const authController = new AuthController(authService);
 
-authRouter.post("/register", authController.register.bind(authController));
-authRouter.post("/login", authController.login.bind(authController));
+authRouter.post("/auth/register", authController.register.bind(authController));
+authRouter.post("/auth/login", authController.login.bind(authController));
 
 export default authRouter;

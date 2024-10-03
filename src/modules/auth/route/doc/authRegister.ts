@@ -25,10 +25,125 @@ const registerErrorResponse = z.object({
   data: z.null(),
 });
 
+// Definir el esquema de autenticación para JWT
+authRegistry.registerComponent("securitySchemes", "bearerAuth", {
+  type: "http",
+  scheme: "bearer",
+  bearerFormat: "JWT",
+});
+
+// Aplicar seguridad globalmente o a rutas específicas
+authRegistry.registerPath({
+  method: "get",
+  path: "/api/v1/users/{id}",
+  description: "Get user by ID",
+  tags: ["Users"],
+  parameters: [
+    {
+      name: "id",
+      in: "path",
+      required: true,
+      schema: {
+        type: "string",
+        example: "60c72b2f9b1e8e001c8a9a7d",
+      },
+    },
+  ],
+  security: [{ bearerAuth: [] }], // Añadir el esquema de seguridad aquí
+  responses: {
+    200: {
+      description: "User retrieved successfully",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              id: { type: "string" },
+              firstName: { type: "string" },
+              lastName: { type: "string" },
+              phone: { type: "string" },
+              email: { type: "string", format: "email" },
+              firstLogin: { type: "boolean" },
+            },
+          },
+          example: {
+            id: "60c72b2f9b1e8e001c8a9a7d",
+            firstName: "John",
+            lastName: "Doe",
+            phone: "1234567890",
+            email: "john.doe@example.com",
+            firstLogin: true,
+          },
+        },
+      },
+    },
+    401: {
+      description: "Unauthorized - Missing or invalid token",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              httpCode: { type: "number" },
+              message: { type: "string" },
+              data: { type: "null" },
+            },
+          },
+          example: {
+            httpCode: 401,
+            message: "Unauthorized - Missing or invalid token",
+            data: null,
+          },
+        },
+      },
+    },
+    404: {
+      description: "User not found",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              httpCode: { type: "number" },
+              message: { type: "string" },
+              data: { type: "null" },
+            },
+          },
+          example: {
+            httpCode: 404,
+            message: "User not found",
+            data: null,
+          },
+        },
+      },
+    },
+    500: {
+      description: "Internal Server Error",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              httpCode: { type: "number" },
+              message: { type: "string" },
+              data: { type: "null" },
+            },
+          },
+          example: {
+            httpCode: 500,
+            message: "Internal Server Error",
+            data: null,
+          },
+        },
+      },
+    },
+  },
+});
+
 // Añadir las rutas con los ejemplos y respuestas manuales
 authRegistry.registerPath({
   method: "post",
-  path: "/auth/register",
+  path: "/api/v1/auth/register",
   description: "Register a new user",
   tags: ["Auth"],
   requestBody: {
@@ -122,7 +237,7 @@ authRegistry.register("Auth", LoginDto);
 // authRegistry.registerPath({
 authRegistry.registerPath({
   method: "post",
-  path: "/auth/login",
+  path: "/api/v1/auth/login",
   description: "Login a user",
   tags: ["Auth"],
   requestBody: {

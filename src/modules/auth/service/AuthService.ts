@@ -2,8 +2,8 @@ import { generateToken } from "@/modules/utils/jwt";
 import { logger } from "@/server";
 import bcrypt from "bcryptjs";
 import { StatusCodes } from "http-status-codes";
+import { HttpException } from "../../middleware/HttpException";
 import type { UserResponseDto } from "../dto/UserResponseDto";
-import { HttpException } from "../middleware/HttpException";
 import type { IAuthRepository } from "../repository/IAuthRepository";
 import type { IAuthService } from "./IAuthService";
 
