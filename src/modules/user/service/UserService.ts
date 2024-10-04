@@ -1,7 +1,7 @@
 import { HttpException } from "@/modules/middleware/HttpException";
 import { StatusCodes } from "http-status-codes";
 import type { UpdateUserDto } from "../dto/UpdateUserDto";
-import { UserMapper } from "../mappers/UserMapper";
+import userMapper from "../mappers/UserMapper";
 import type { IUserRepository } from "../repository/IUserRepository";
 import { UserVo } from "../vo/UserVo";
 import type { IUserService } from "./IUserService";
@@ -34,6 +34,7 @@ export class UserService implements IUserService {
     if (!user) {
       throw new HttpException(StatusCodes.NOT_FOUND, `User with id: ${id} not found`);
     }
-    return UserMapper.toVo(user);
+
+    return userMapper(user);
   }
 }
