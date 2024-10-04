@@ -1,3 +1,4 @@
+import { GetUserSchema } from "@/api/user/userModel";
 import { OpenAPIRegistry } from "@asteasolutions/zod-to-openapi";
 import { z } from "zod";
 import { CreateUserDto } from "../../dto/CreateUserDto";
@@ -298,6 +299,70 @@ authRegistry.registerPath({
             message: "Internal Server Error",
             data: null,
           },
+        },
+      },
+    },
+  },
+});
+
+authRegistry.registerPath({
+  method: "patch",
+  path: "/api/v1/users/{id}",
+  description: "update user by ID",
+  tags: ["Users"],
+  // request: { params: GetUserSchema.shape.params },
+  parameters: [
+    {
+      name: "id",
+      in: "path",
+      required: true,
+      schema: { type: "string" },
+    },
+  ],
+  requestBody: {
+    description: "Data to update user",
+    required: true,
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            firstName: { type: "string", example: "John", nullable: true },
+            lastName: { type: "string", example: "Doe", nullable: true },
+            phone: { type: "string", example: "1234567890", nullable: true },
+            email: { type: "string", format: "email", example: "john.doe@example.com", nullable: true },
+          },
+        },
+      },
+    },
+  },
+  security: [{ bearerAuth: [] }],
+  responses: {
+    200: {
+      description: "User updated successfully",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              id: { type: "string" },
+              firstName: { type: "string" },
+              lastName: { type: "string" },
+              phone: { type: "string" },
+              email: { type: "string", format: "email" },
+              ci: { type: "string" },
+              firstLogin: { type: "boolean" },
+            },
+          },
+          // example: {
+          //   id: "60c72b2f9b1e8e001c8a9a7d",
+          //   firstName: "John",
+          //   lastName: "Doe",
+          //   phone: "1234567890",
+          //   email: "john.doe@example.com",
+          //   ci: "1234567",
+          //   firstLogin: true,
+          // },
         },
       },
     },

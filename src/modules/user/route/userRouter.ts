@@ -11,5 +11,6 @@ const userService = new UserService(userRepository);
 const userController = new UserController(userService);
 
 userRouter.get("/users/:id", authMiddleware, (req, res, next) => userController.getUserById(req, res, next));
+userRouter.patch("/users/:id", authMiddleware, (req, res, next) => userController.updateUser(req, res, next));
 
 export default userRouter;
