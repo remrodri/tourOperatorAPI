@@ -10,4 +10,5 @@ export interface IAuthRepository {
     ci: string,
     password: string,
   ): Promise<IUser>;
+  findAllByEmail(email: string): Promise<IUser[]>;
 }

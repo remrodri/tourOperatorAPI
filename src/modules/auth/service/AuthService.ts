@@ -1,3 +1,4 @@
+import type { IUserRepository } from "@/modules/user/repository/IUserRepository";
 import { generateToken } from "@/modules/utils/jwt";
 import { logger } from "@/server";
 import bcrypt from "bcryptjs";
@@ -9,9 +10,11 @@ import type { IAuthService } from "./IAuthService";
 
 export class AuthService implements IAuthService {
   private readonly authRepository: IAuthRepository;
+  private readonly userRepository: IUserRepository;
 
-  constructor(authRepository: IAuthRepository) {
+  constructor(authRepository: IAuthRepository, userRepository: IUserRepository) {
     this.authRepository = authRepository;
+    this.userRepository = userRepository;
   }
 
   async register(
@@ -22,16 +25,17 @@ export class AuthService implements IAuthService {
     ci: string,
     password: string,
   ): Promise<UserResponseDto> {
-    //verificar  si el usuario existe
+    // Verificar si ya existe un usuario con el mismo email y que no esté eliminado
     const existingUser = await this.authRepository.findByEmail(email);
-    if (existingUser) {
-      throw new HttpException(400, "User already exists");
-    }
-    //si no existe crear el usuario
 
+    if (existingUser) {
+      throw new HttpException(StatusCodes.BAD_REQUEST, "User already exists");
+    }
+
+    // Si el usuario está eliminado, permitir la creación de un nuevo usuario
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    //crer el usuario y guardarlo en la bd
+    // Crear y guardar el nuevo usuario
     const newUser = await this.authRepository.saveUser(firstName, lastName, phone, email, ci, hashedPassword);
     logger.info(newUser);
 
@@ -46,20 +50,22 @@ export class AuthService implements IAuthService {
   }
 
   async login(email: string, password: string): Promise<{ user: UserResponseDto; token: string }> {
-    //verificar si el usuario existe
     const user = await this.authRepository.findByEmail(email);
     if (!user) {
       throw new HttpException(StatusCodes.UNAUTHORIZED, "Invalid credentials");
     }
-    //verificar si la contraseña es correcta
+
+    if (user?.deleted) {
+      throw new HttpException(StatusCodes.UNAUTHORIZED, "User is deleted");
+    }
+
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       throw new HttpException(StatusCodes.UNAUTHORIZED, "Invalid credentials");
     }
-    //crear el jwt
+
     const token = generateToken(user._id, user.password);
 
-    // si la contraseña es correcta devolver el usuario(sin el password) y el token
     return {
       user: {
         id: user._id,

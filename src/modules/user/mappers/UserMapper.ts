@@ -1,4 +1,3 @@
-import { IUser } from "../model/IUser";
 import { UserVo } from "../vo/UserVo";
 
 const userMapper = (user: any) => {

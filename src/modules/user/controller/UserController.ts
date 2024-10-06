@@ -39,7 +39,36 @@ export class UserController {
         .setData(updateUser)
         .build();
       res.status(StatusCodes.OK).json(response);
-      return;
+      // return;
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async softDelete(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = req.params.id;
+      await this.userService.softDelete(userId);
+      const response = new ApiResponseBuilder()
+        .setStatusCode(StatusCodes.OK)
+        .setMessage("User marked as deleted")
+        .setData(null)
+        .build();
+      res.status(StatusCodes.OK).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getAllusers(req: Request, res: Response, next: NextFunction) {
+    try {
+      const users = await this.userService.getAllUsers();
+      const response = new ApiResponseBuilder()
+        .setStatusCode(StatusCodes.OK)
+        .setMessage("Users found succesfully")
+        .setData(users)
+        .build();
+      res.status(StatusCodes.OK).json(response);
     } catch (error) {
       next(error);
     }

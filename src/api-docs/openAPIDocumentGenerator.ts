@@ -7,7 +7,7 @@ import { myUserRegistry } from "@/modules/user/route/doc/userRegister";
 // import { authRegistry } from "@/modules/auth/route/authRouter";
 
 export function generateOpenAPIDocument() {
-  const registry = new OpenAPIRegistry([healthCheckRegistry, userRegistry, authRegistry]);
+  const registry = new OpenAPIRegistry([healthCheckRegistry, userRegistry, authRegistry, myUserRegistry]);
   const generator = new OpenApiGeneratorV3(registry.definitions);
 
   return generator.generateDocument({

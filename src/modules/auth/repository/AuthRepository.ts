@@ -3,6 +3,10 @@ import { UserModel } from "../model/UserModel";
 import type { IAuthRepository } from "./IAuthRepository";
 
 export class AuthRepository implements IAuthRepository {
+  findAllByEmail(email: string): Promise<IUser[]> {
+    return UserModel.find({ email }).exec();
+  }
+
   async findByEmail(email: string): Promise<IUser | null> {
     return UserModel.findOne({ email }).exec();
   }
