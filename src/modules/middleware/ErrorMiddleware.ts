@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { ZodError } from "zod";
-import { ApiResponseBuilder } from "../../utils/ApiResponseBuilder";
+import { ApiResponseBuilder } from "../utils/ApiResponseBuilder";
 import { HttpException } from "./HttpException";
 
 export const errorMiddleware = (error: HttpException | ZodError, req: Request, res: Response, next: NextFunction) => {

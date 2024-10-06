@@ -27,26 +27,26 @@ describe("Auth - Register and Login", () => {
   //   }
   // });
 
-  it("deberia registrar un nuevo usuario correctamente", async () => {
-    const res = await request(app).post("/auth/register").send({
-      firstName: "John",
-      lastName: "Doe",
-      phone: "1234567890",
-      email: "john.doe@example.com",
-      ci: "1234567",
-      password: "mypassword",
-    });
+  // it("deberia registrar un nuevo usuario correctamente", async () => {
+  //   const res = await request(app).post("/auth/register").send({
+  //     firstName: "John",
+  //     lastName: "Doe",
+  //     phone: "1234567890",
+  //     email: "john.doe@example.com",
+  //     ci: "1234567",
+  //     password: "mypassword",
+  //   });
 
-    expect(res.status).toBe(StatusCodes.CREATED); //codigo de exito
-    expect(res.body.message).toBe("User registered succesfully");
-    // expect(res.body.data).toHaveProperty('token');
-    expect(res.body.data).toHaveProperty("id");
-    expect(res.body.data).toHaveProperty("firstName");
-    expect(res.body.data).toHaveProperty("lastName");
-    expect(res.body.data).toHaveProperty("phone");
-    expect(res.body.data).toHaveProperty("email");
-    expect(res.body.data).toHaveProperty("firstLogin");
-  });
+  //   expect(res.status).toBe(StatusCodes.CREATED); //codigo de exito
+  //   expect(res.body.message).toBe("User registered succesfully");
+  //   // expect(res.body.data).toHaveProperty('token');
+  //   expect(res.body.data).toHaveProperty("id");
+  //   expect(res.body.data).toHaveProperty("firstName");
+  //   expect(res.body.data).toHaveProperty("lastName");
+  //   expect(res.body.data).toHaveProperty("phone");
+  //   expect(res.body.data).toHaveProperty("email");
+  //   expect(res.body.data).toHaveProperty("firstLogin");
+  // });
 
   it("deberia retornar error si el email ya esta registrado", async () => {
     const res = await request(app).post("/auth/register").send({

@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { verifyToken } from "../../utils/jwt";
+import { verifyToken } from "../utils/jwt";
 import { HttpException } from "./HttpException";
 
 // export interface AuthenticateRequest extends Request {
