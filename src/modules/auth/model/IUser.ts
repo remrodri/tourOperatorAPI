@@ -1,3 +1,5 @@
+import { IRole } from "@/modules/role/model/IRole";
+
 export interface IUser extends Document {
   _id: string;
   firstName: string;
@@ -8,4 +10,5 @@ export interface IUser extends Document {
   password: string;
   deleted: boolean;
   firstLogin: boolean;
+  role: string;
 }

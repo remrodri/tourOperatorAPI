@@ -1,3 +1,4 @@
+import { logger } from "@/server";
 import type { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { ApiResponseBuilder } from "../../utils/ApiResponseBuilder";
@@ -13,8 +14,10 @@ export class AuthController {
   }
 
   async register(req: Request, res: Response, next: NextFunction): Promise<void> {
+    // logger.info(req.body);
     try {
       const createUserDto = CreateUserDto.parse(req.body);
+      // logger.info(createUserDto)
       const user = await this.authService.register(
         createUserDto.firstName,
         createUserDto.lastName,
@@ -22,7 +25,9 @@ export class AuthController {
         createUserDto.email,
         createUserDto.ci,
         createUserDto.password,
+        createUserDto.roleId,
       );
+      // logger.info(user)
 
       const response = new ApiResponseBuilder()
         .setStatusCode(StatusCodes.CREATED)

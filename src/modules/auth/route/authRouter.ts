@@ -1,3 +1,5 @@
+import { UserRepository } from "@/api/user/userRepository";
+import { RoleRepository } from "@/modules/role/repository/RoleRepository";
 import { Router } from "express";
 import { AuthController } from "../controller/AuthController";
 import { AuthRepository } from "../repository/AuthRepository";
@@ -7,7 +9,8 @@ const authRouter: Router = Router();
 
 //instanciamos los servicios y repositorios
 const authRepository = new AuthRepository();
-const authService = new AuthService(authRepository);
+const roleRepository = new RoleRepository();
+const authService = new AuthService(authRepository, roleRepository);
 const authController = new AuthController(authService);
 
 authRouter.post("/auth/register", authController.register.bind(authController));

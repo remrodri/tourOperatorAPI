@@ -1,3 +1,5 @@
+import { IRole } from "@/modules/role/model/IRole";
+
 export interface UserResponseDto {
   id: string;
   firstName: string;
@@ -8,4 +10,5 @@ export interface UserResponseDto {
   // password: string,
   // deleted: boolean,
   firstLogin: boolean;
+  role: string;
 }
