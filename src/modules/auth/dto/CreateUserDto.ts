@@ -7,4 +7,7 @@ export const CreateUserDto = z.object({
   email: z.string().email("invalid email format"),
   ci: z.string().min(7, "ci must have at least 7 characters"),
   password: z.string().min(6, "Password must have at least 6 characters"),
+  roleId: z.string({ message: "roleId is required" }),
 });
+
+export type CreateUserDto = z.infer<typeof CreateUserDto>;

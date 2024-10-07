@@ -11,10 +11,11 @@ const UserSchema: Schema = new Schema(
     password: { type: String, default: "123456" },
     deleted: { type: Boolean, default: false },
     firstLogin: { type: Boolean, default: true },
+    role: { type: Schema.Types.ObjectId, ref: "Role", required: true },
   },
   {
     timestamps: true,
-    collection: "user",
+    collection: "users",
   },
 );
 

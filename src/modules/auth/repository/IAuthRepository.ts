@@ -9,6 +9,7 @@ export interface IAuthRepository {
     email: string,
     ci: string,
     password: string,
+    roleId: string,
   ): Promise<IUser>;
   findAllByEmail(email: string): Promise<IUser[]>;
 }

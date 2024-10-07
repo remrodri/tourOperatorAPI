@@ -1,3 +1,5 @@
+import { IRole } from "@/modules/role/model/IRole";
+import type { IRoleRepository } from "@/modules/role/repository/IRoleRepository";
 import type { IUserRepository } from "@/modules/user/repository/IUserRepository";
 import { generateToken } from "@/modules/utils/jwt";
 import { logger } from "@/server";
@@ -10,11 +12,17 @@ import type { IAuthService } from "./IAuthService";
 
 export class AuthService implements IAuthService {
   private readonly authRepository: IAuthRepository;
-  private readonly userRepository: IUserRepository;
+  // private readonly userRepository: IUserRepository;
+  private readonly roleRepository: IRoleRepository;
 
-  constructor(authRepository: IAuthRepository, userRepository: IUserRepository) {
+  constructor(
+    authRepository: IAuthRepository,
+    // userRepository: IUserRepository,
+    roleRepository: IRoleRepository,
+  ) {
     this.authRepository = authRepository;
-    this.userRepository = userRepository;
+    // this.userRepository = userRepository;
+    this.roleRepository = roleRepository;
   }
 
   async register(
@@ -24,6 +32,7 @@ export class AuthService implements IAuthService {
     email: string,
     ci: string,
     password: string,
+    roleId: string,
   ): Promise<UserResponseDto> {
     // Verificar si ya existe un usuario con el mismo email y que no esté eliminado
     const existingUser = await this.authRepository.findByEmail(email);
@@ -31,12 +40,19 @@ export class AuthService implements IAuthService {
     if (existingUser) {
       throw new HttpException(StatusCodes.BAD_REQUEST, "User already exists");
     }
+    // logger.info(roleId)
+    //validar si el rol existe
+    const role = await this.roleRepository.findById(roleId);
+    // logger.info(role)
+    if (!role) {
+      throw new HttpException(StatusCodes.BAD_REQUEST, "Role not found");
+    }
 
     // Si el usuario está eliminado, permitir la creación de un nuevo usuario
     const hashedPassword = await bcrypt.hash(password, 10);
-
+    // logger.info(roleId)
     // Crear y guardar el nuevo usuario
-    const newUser = await this.authRepository.saveUser(firstName, lastName, phone, email, ci, hashedPassword);
+    const newUser = await this.authRepository.saveUser(firstName, lastName, phone, email, ci, hashedPassword, roleId);
     logger.info(newUser);
 
     return {
@@ -46,6 +62,7 @@ export class AuthService implements IAuthService {
       phone: newUser.phone,
       email: newUser.email,
       firstLogin: newUser.firstLogin,
+      role: role.name,
     };
   }
 
@@ -66,6 +83,11 @@ export class AuthService implements IAuthService {
 
     const token = generateToken(user._id, user.password);
 
+    const role = await this.roleRepository.findById(user.role);
+    if (!role) {
+      throw new HttpException(StatusCodes.NOT_FOUND, "role not found");
+    }
+
     return {
       user: {
         id: user._id,
@@ -74,6 +96,7 @@ export class AuthService implements IAuthService {
         phone: user.phone,
         email: user.email,
         firstLogin: user.firstLogin,
+        role: role.name,
       },
       token,
     };
