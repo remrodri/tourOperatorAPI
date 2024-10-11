@@ -10,4 +10,5 @@ export interface IUserRepository {
   getAll(): Promise<IUser[]>;
   isEmailAvailable(email: string): Promise<boolean>;
   softDelete(userId: string): Promise<void>;
+  registerUserQuestionsAnswers(userId: string, userAnswersQuestionsId: string): Promise<void>;
 }

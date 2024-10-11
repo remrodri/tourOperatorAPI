@@ -12,10 +12,11 @@ const UserSchema: Schema = new Schema(
     deleted: { type: Boolean, default: false },
     firstLogin: { type: Boolean, default: true },
     role: { type: Schema.Types.ObjectId, ref: "Role", required: true },
+    questionsAnswers: { type: Schema.Types.ObjectId, ref: "UserQuestionsAnswers" },
   },
   {
     timestamps: true,
-    collection: "users",
+    collection: "Users",
   },
 );
 

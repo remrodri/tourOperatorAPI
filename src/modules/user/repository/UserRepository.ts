@@ -6,6 +6,10 @@ import type { UpdateUserDto } from "../dto/UpdateUserDto";
 import type { IUserRepository } from "./IUserRepository";
 
 export class UserRepository implements IUserRepository {
+  async registerUserQuestionsAnswers(userId: string, userQuestionsAnswersId: string): Promise<void> {
+    await UserModel.findByIdAndUpdate(userId, { questionsAnswers: userQuestionsAnswersId });
+    // throw new Error("Method not implemented.");
+  }
   async softDelete(userId: string): Promise<void> {
     await UserModel.findByIdAndUpdate(userId, { deleted: true });
   }
