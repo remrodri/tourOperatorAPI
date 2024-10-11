@@ -1,3 +1,4 @@
+import type { IRecoveryPasswordService } from "@/modules/recoveryPassword/service/IRecoveryPasswordService";
 import { IRole } from "@/modules/role/model/IRole";
 import type { IRoleRepository } from "@/modules/role/repository/IRoleRepository";
 import type { IUserRepository } from "@/modules/user/repository/IUserRepository";
@@ -12,17 +13,28 @@ import type { IAuthService } from "./IAuthService";
 
 export class AuthService implements IAuthService {
   private readonly authRepository: IAuthRepository;
-  // private readonly userRepository: IUserRepository;
   private readonly roleRepository: IRoleRepository;
+  private readonly recoveryPasswordService: IRecoveryPasswordService;
+  private readonly userRepository: IUserRepository;
 
   constructor(
     authRepository: IAuthRepository,
-    // userRepository: IUserRepository,
     roleRepository: IRoleRepository,
+    recoveryPasswordService: IRecoveryPasswordService,
+    userRepository: IUserRepository,
   ) {
     this.authRepository = authRepository;
-    // this.userRepository = userRepository;
     this.roleRepository = roleRepository;
+    this.recoveryPasswordService = recoveryPasswordService;
+    this.userRepository = userRepository;
+  }
+
+  async registerUserQuestionsAnswers(userId: string): Promise<void> {
+    const vo = await this.recoveryPasswordService.registerUserQuestionsAnswers(userId.toString());
+    // console.log('vo::: ', vo.id.toString());
+    // console.log('userId+uqaId::: ', userId+" "+vo.id.toString());
+    await this.userRepository.registerUserQuestionsAnswers(userId, vo.id.toString());
+    // throw new Error("Method not implemented.");
   }
 
   async register(
@@ -53,7 +65,8 @@ export class AuthService implements IAuthService {
     // logger.info(roleId)
     // Crear y guardar el nuevo usuario
     const newUser = await this.authRepository.saveUser(firstName, lastName, phone, email, ci, hashedPassword, roleId);
-    logger.info(newUser);
+
+    await this.registerUserQuestionsAnswers(newUser._id.toString());
 
     return {
       id: newUser._id,

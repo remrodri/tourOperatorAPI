@@ -7,7 +7,7 @@ const RoleSchema: Schema = new Schema(
   },
   {
     timestamps: true,
-    collection: "roles",
+    collection: "Roles",
   },
 );
 

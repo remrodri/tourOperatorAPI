@@ -14,4 +14,6 @@ export interface IAuthService {
   ): Promise<UserResponseDto>;
 
   login(email: string, password: string): Promise<{ user: UserResponseDto; token: string }>;
+
+  registerUserQuestionsAnswers(userId: string): Promise<void>;
 }

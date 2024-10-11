@@ -2,7 +2,6 @@ import { ApiResponseBuilder } from "@/modules/utils/ApiResponseBuilder";
 import type { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { CreateRoleDto } from "../dto/CreateRoleDto";
-import { RoleIdDto } from "../dto/roleIdDto";
 import type { IRoleService } from "../service/IRoleService";
 
 export class RoleController {
