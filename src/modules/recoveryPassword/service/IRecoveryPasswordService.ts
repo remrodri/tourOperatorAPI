@@ -1,6 +1,8 @@
 import { z } from "zod";
+import type { QuestionVo } from "../vo/QuestionVo";
 import type { UserQuestionsAnswersVo } from "../vo/UserQuestionsAnswersVo";
 
 export interface IRecoveryPasswordService {
-  registerUserQuestionsAnswers(userId: string): Promise<UserQuestionsAnswersVo>;
+  registerUserQuestionsAnswers(userId: string, questionsIds: string[]): Promise<UserQuestionsAnswersVo>;
+  getRandomUserQuestionByUserId(userId: string): Promise<QuestionVo | null>;
 }
