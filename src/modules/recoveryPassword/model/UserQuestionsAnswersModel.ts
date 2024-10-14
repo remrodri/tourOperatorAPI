@@ -3,7 +3,23 @@ import type { IUserQuestionsAnswers } from "./IUserQuestionsAnswers";
 
 const UserQuestionsAnswersSchema = new Schema(
   {
-    userId: { type: Schema.Types.ObjectId, ref: "User" },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+    questionsAnswers: [
+      {
+        question: {
+          type: Schema.Types.ObjectId,
+          ref: "Question",
+        },
+        answer: {
+          type: Schema.Types.ObjectId,
+          ref: "Answer",
+        },
+      },
+    ],
+    // questionsAnswers: [{ type: Schema.Types.ObjectId, ref: "Question" }]
   },
   {
     timestamps: true,

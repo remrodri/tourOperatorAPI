@@ -1,5 +1,6 @@
+import { QuestionRepository } from "@/modules/recoveryPassword/repository/QuestionRepository";
 import { RecoveryPasswordRepository } from "@/modules/recoveryPassword/repository/RecoveryPasswordRepository";
-import { RecoveryPassword } from "@/modules/recoveryPassword/service/RecoveryPasswordService";
+import { RecoveryPasswordService } from "@/modules/recoveryPassword/service/RecoveryPasswordService";
 import { RoleRepository } from "@/modules/role/repository/RoleRepository";
 import { UserRepository } from "@/modules/user/repository/UserRepository";
 import { Router } from "express";
@@ -14,7 +15,8 @@ const authRepository = new AuthRepository();
 const roleRepository = new RoleRepository();
 const recoveryPasswordRepository = new RecoveryPasswordRepository();
 const userRepository = new UserRepository();
-const recoveryPasswordService = new RecoveryPassword(recoveryPasswordRepository);
+const questionRepository = new QuestionRepository();
+const recoveryPasswordService = new RecoveryPasswordService(recoveryPasswordRepository, questionRepository);
 
 const authService = new AuthService(authRepository, roleRepository, recoveryPasswordService, userRepository);
 const authController = new AuthController(authService);
