@@ -1,6 +1,6 @@
 export class AnswerVo {
   constructor(
-    public readonly questionId: string,
+    public readonly answerId: string,
     public readonly answerText?: string,
   ) {}
 }
