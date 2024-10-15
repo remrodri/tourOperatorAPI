@@ -42,4 +42,38 @@ export class RecoveryPasswordController {
       next(error);
     }
   }
+
+  async getAllQuestionsAnswersByUserId(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = req.params.id;
+      const userQuestionsAnswers = await this.recoveryPasswordService.getAllUserQuestionsAnswersByUserId(userId);
+      // console.log('userQuestionsAnswers::: ', userQuestionsAnswers);
+
+      const response = new ApiResponseBuilder()
+        .setStatusCode(StatusCodes.OK)
+        .setMessage("userQuestionsAnswers found succesfully")
+        .setData(userQuestionsAnswers)
+        .build();
+      res.status(StatusCodes.OK).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async fetchAnswer(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = req.params.id;
+      const questionAnswerId = req.body.questionAnswerId;
+      const answer = req.body.answer;
+      await this.recoveryPasswordService.isAnswerCorrect(userId, questionAnswerId, answer);
+      const response = new ApiResponseBuilder()
+        .setStatusCode(StatusCodes.OK)
+        .setMessage("answer is correct")
+        .setData(null)
+        .build();
+      res.status(StatusCodes.OK).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
