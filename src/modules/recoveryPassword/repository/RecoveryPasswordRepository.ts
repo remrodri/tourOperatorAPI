@@ -1,11 +1,14 @@
 import { AnswerModel } from "../model/AnswerModel";
+import type { IUserQuestionsAnswers } from "../model/IUserQuestionsAnswers";
 import { UserQuestionsAnswersModel } from "../model/UserQuestionsAnswersModel";
-import { QuestionVo } from "../vo/QuestionVo";
-import { UserQuestionsAnswersV2Vo } from "../vo/UserQuestionAnswersv2Vo";
 import { UserQuestionsAnswersVo } from "../vo/UserQuestionsAnswersVo";
 import type { IRecoveryPasswordRepository } from "./IRecoveryPasswordRepository";
 
 export class RecoveryPasswordRepository implements IRecoveryPasswordRepository {
+  async getAllUserQuestionsAnswerByUserId(userId: string): Promise<IUserQuestionsAnswers | null> {
+    // console.log('userId::: ', userId);
+    return await UserQuestionsAnswersModel.findOne({ user: userId }).populate("questionsAnswers.answer");
+  }
   async getRandomUserQuestionByUserId(userId: string): Promise<any | null> {
     // console.log('entre al repositorio::: ',userId);
     return await UserQuestionsAnswersModel.findOne({ user: userId }).populate("questionsAnswers.question");
