@@ -45,7 +45,8 @@ export class RecoveryPasswordController {
 
   async getAllQuestionsAnswersByUserId(req: Request, res: Response, next: NextFunction) {
     try {
-      const userId = req.params.id;
+      const userId = req.body.userId;
+      // console.log('userId::: ', userId);
       const userQuestionsAnswers = await this.recoveryPasswordService.getAllUserQuestionsAnswersByUserId(userId);
       // console.log('userQuestionsAnswers::: ', userQuestionsAnswers);
 
@@ -69,6 +70,21 @@ export class RecoveryPasswordController {
       const response = new ApiResponseBuilder()
         .setStatusCode(StatusCodes.OK)
         .setMessage("answer is correct")
+        .setData(null)
+        .build();
+      res.status(StatusCodes.OK).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async submitSecurityAnswers(req: Request, res: Response, next: NextFunction) {
+    try {
+      const answers = req.body.answers;
+      await this.recoveryPasswordService.updateAnswers(answers);
+      const response = new ApiResponseBuilder()
+        .setStatusCode(StatusCodes.OK)
+        .setMessage("Answers updated succesfully")
         .setData(null)
         .build();
       res.status(StatusCodes.OK).json(response);

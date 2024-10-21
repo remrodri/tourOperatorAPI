@@ -2,9 +2,9 @@ import { HttpException } from "@/modules/middleware/HttpException";
 import { logger } from "@/server";
 import { StatusCodes } from "http-status-codes";
 import type { UpdateAnswerDto } from "../dto/UpdateAnswerDto";
-import type { IAnswerRepository } from "../model/IAnswerRepository";
 import { QuestionModel } from "../model/QuestionModel";
 import { UserQuestionsAnswersModel } from "../model/UserQuestionsAnswersModel";
+import type { IAnswerRepository } from "../repository/IAnswerRepository";
 import type { IQuestionRepository } from "../repository/IQuestionRepository";
 import type { IRecoveryPasswordRepository } from "../repository/IRecoveryPasswordRepository";
 import type { IUserQuestionsAnswersRepository } from "../repository/IUserQuestionsAnswersRepository";
@@ -31,6 +31,11 @@ export class RecoveryPasswordService implements IRecoveryPasswordService {
     this.questionRepository = questionRepository;
     this.answerRespository = answerRepository;
     this.userQuestionsAnswersRepository = userQuestionsAnswersRepository;
+  }
+  async updateAnswers(answers: { answerId: string; answerText: string }[]): Promise<void> {
+    answers.forEach((answer: { answerId: string; answerText: string }) => {
+      this.updateAnswer(answer.answerId, { answerText: answer.answerText });
+    });
   }
 
   async isAnswerCorrect(userId: string, questionAnswerId: string, answer: string): Promise<void> {

@@ -13,4 +13,5 @@ export interface IRecoveryPasswordService {
   updateAnswer(answerId: string, updateAnswerDto: UpdateAnswerDto): Promise<AnswerVo>;
   getAllUserQuestionsAnswersByUserId(userId: string): Promise<any | null>;
   isAnswerCorrect(userId: string, questionAnswerId: string, answer: string): Promise<void>;
+  updateAnswers(answers: { answerId: string; answerText: string }[]): Promise<void>;
 }

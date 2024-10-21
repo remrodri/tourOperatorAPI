@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { RecoveryPasswordController } from "../controller/RecoveryPasswordController";
-import { AnswerRepository } from "../model/AnswerRepository";
+import { AnswerRepository } from "../repository/AnswerRepository";
 import { QuestionRepository } from "../repository/QuestionRepository";
 import { RecoveryPasswordRepository } from "../repository/RecoveryPasswordRepository";
 import { UserQuestionsAnswersRepository } from "../repository/UserQuestionsAnswersRepository";
@@ -26,11 +26,14 @@ recoveryPasswordRouter.get("/recovery-password/:id/get-random-question", (req, r
 recoveryPasswordRouter.patch("/recovery-password/:id/update-answer", (req, res, next) =>
   recoveryPasswordController.updateAnswerbyAnswerId(req, res, next),
 );
-recoveryPasswordRouter.get("/recovery-password/:id/questions-answers", (req, res, next) =>
+recoveryPasswordRouter.post("/recovery-password", (req, res, next) =>
   recoveryPasswordController.getAllQuestionsAnswersByUserId(req, res, next),
 );
 recoveryPasswordRouter.post("/recovery-password/:id/fetch-answer", (req, res, next) =>
   recoveryPasswordController.fetchAnswer(req, res, next),
+);
+recoveryPasswordRouter.post("/recovery-password/submit-security-answers", (req, res, next) =>
+  recoveryPasswordController.submitSecurityAnswers(req, res, next),
 );
 
 export default recoveryPasswordRouter;
